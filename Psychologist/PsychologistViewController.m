@@ -8,6 +8,7 @@
 
 #import "PsychologistViewController.h"
 #import "HappinessViewController.h"
+#import "RotatableViewController.h"
 
 @interface PsychologistViewController()
 
@@ -19,10 +20,23 @@
 
 @synthesize diagnosis = _diagnosis;
 
+-(HappinessViewController *)splitViewHappinessViewController{
+    id hvc = [self.splitViewController.viewControllers lastObject];
+    if (![hvc isKindOfClass:[HappinessViewController class]]){
+        hvc = nil;
+    }
+    return hvc;
+}
+
 -(void) setAndShowDiagnosis:(int)diagnosis
 {
     self.diagnosis = diagnosis;
+    if ([self splitViewHappinessViewController]){
+        [self splitViewHappinessViewController].happiness = diagnosis;
+    }
+    else {
     [self performSegueWithIdentifier:@"ShowDiagnosis" sender:self];
+    }
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
